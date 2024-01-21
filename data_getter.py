@@ -9,7 +9,7 @@ BUS_POS_URL = ("https://api.um.warszawa.pl/api/action/busestrams_get/?resource_i
 
 
 # Downloading data from 'url' to file named 'tag', which is being put into directory 'storage'.
-def read_new_patch(tag="1", storage="DATA", url=BUS_POS_URL):
+def read_new_batch(tag="1", storage="DATA", url=BUS_POS_URL):
     dicts = ''  # Dictionary with downloaded data.
     path = os.path.join(os.getcwd(), str(storage), tag + ".json")
     while not isinstance(dicts, list):
@@ -19,15 +19,15 @@ def read_new_patch(tag="1", storage="DATA", url=BUS_POS_URL):
         json.dump(dicts, file)
 
 
-# Collecting data 'patches' times. Data is being downloaded in 'consistency' time periods measured in seconds.
+# Collecting data 'batches' times. Data is being downloaded in 'consistency' time periods measured in seconds.
 # Data is being stored in file named 'tag', which is being put into 'storage' directory.
-def get_pos_data(patches=60, tag='', storage="DATA", consistency=1):
+def get_pos_data(batches=60, tag='', storage="DATA", consistency=1):
     if not os.path.isdir(str(storage)):  # Making 'storage' if it doesn't exist yet.
         os.mkdir(storage)
     sleep_time = datetime.today()
-    if patches > 0:  # Downloading the first patch.
-        read_new_patch(tag + "_1", storage)
-    for i in range(2, patches + 1):  # Downloading other patches.
+    if batches > 0:  # Downloading the first batch.
+        read_new_batch(tag + "_1", storage)
+    for i in range(2, batches + 1):  # Downloading other batches.
         sleep_time = sleep_time + timedelta(seconds=consistency)
         pause.until(sleep_time)  # Waiting for exactly minute to pass since last downloading.
-        read_new_patch(tag + "_" + str(i), storage)
+        read_new_batch(tag + "_" + str(i), storage)
