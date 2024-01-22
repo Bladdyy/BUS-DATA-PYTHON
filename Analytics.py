@@ -39,6 +39,7 @@ def haversine_velocity(row):
 
 # Finds buses, which exceeded the speed of 50 km/h between two states in time.
 def check_velocity(frame1, frame2):
+    velocity = 50
     ans = np.subtract(frame2, frame1)  # Calculating change in location and time between two states.
     frame1.drop('Time', axis=1, inplace=True)  # Dropping no longer needed columns.
     frame2.drop('Time', axis=1, inplace=True)
@@ -48,7 +49,7 @@ def check_velocity(frame1, frame2):
     ans = ans.join(frame1)
     ans['DelTime'] = ans['DelTime'].dt.total_seconds()
     ans['Velocity'] = ans.apply(haversine_velocity, axis=1)  # Calculating average velocity.
-    ans = ans.loc[ans['Velocity'] > 50]  # Choosing only buses which passed 50 km/h
+    ans = ans.loc[ans['Velocity'] > velocity]  # Choosing only buses which passed 50 km/h
     return ans.index.tolist()
 
 
