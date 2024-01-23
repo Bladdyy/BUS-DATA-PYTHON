@@ -17,6 +17,7 @@ def create_frame(tag='1', storage="DATA"):
         new_frame['Lon'] = pd.to_numeric(new_frame['Lon'])  # Converting values of useful columns.
         new_frame['Lat'] = pd.to_numeric(new_frame['Lat'])
         new_frame['Time'] = pd.to_datetime(new_frame['Time'])
+
         return new_frame
     else:
         print("Given path does not exist.")
@@ -57,11 +58,13 @@ def check_velocity(frame1, frame2):
 def count_passed(tag='', storage='DATA', length=60):
     busses = set()  # Set of busses that exceeded the speed.
     if length > 1:
+        group = 0
         frame1 = create_frame(tag + '1', storage)
         for i in range(2, length + 1):
             frame2 = create_frame(tag + str(i), storage)
             too_fast = check_velocity(frame1.copy(), frame2.copy())
             frame1 = frame2
+            group = group + len(too_fast)
             for el in too_fast:  # Adding new buses that exceeded the speed.
                 busses.add(el)
         return len(busses)
@@ -69,4 +72,4 @@ def count_passed(tag='', storage='DATA', length=60):
         return 0
 
 
-print(count_passed(storage='SUNDAY_TEST_DATA', length=20))
+print(count_passed(tag='morning_data_', storage='TUESDAY_MORNING', length=120))

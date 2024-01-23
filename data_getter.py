@@ -28,6 +28,10 @@ def get_pos_data(batches=60, tag='', storage="DATA", consistency=1):
     if batches > 0:  # Downloading the first batch.
         read_new_batch(tag + "_1", storage)
     for i in range(2, batches + 1):  # Downloading other batches.
+        print("Progress:" + str(i - 1) + "/" + str(batches))
         sleep_time = sleep_time + timedelta(seconds=consistency)
         pause.until(sleep_time)  # Waiting for exactly minute to pass since last downloading.
         read_new_batch(tag + "_" + str(i), storage)
+
+
+get_pos_data(120, 'morning_data', "TUESDAY_MORNING", 60)
