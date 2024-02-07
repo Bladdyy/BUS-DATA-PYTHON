@@ -5,6 +5,7 @@ import csv
 
 
 # Shows where buses were speeding on the interactive map.
+# Name_file is the name of file that contains the distances where buses were speeding.
 def show_speed_map(name_file='BUS_SPEEDING'):
     path = os.path.join(os.getcwd(), name_file + '.csv')
     lon = []  # Longitudes of distances.
@@ -33,6 +34,3 @@ def show_speed_map(name_file='BUS_SPEEDING'):
             'zoom': 9
         })
     fig.show()
-
-
-show_speed_map()

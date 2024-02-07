@@ -55,6 +55,3 @@ def get_bus_data():
         print("Progress: " + str(index) + "/" + str(index_len))
     with open('BUS_STOP_TIMETABLE.json', 'w') as file:
         json.dump(bus_dict, file)
-
-
-get_bus_data()
