@@ -1,7 +1,7 @@
+from BUS_LIB.Analytics.basic import create_frame, haversine_velocity
 import os
 import numpy as np
 import csv
-from . import basic
 
 
 # Finds buses, which exceeded the speed of 50 km/h between two timeframes.
@@ -17,7 +17,7 @@ def check_velocity(frame1, frame2, to_file=False, file_name='DATA/BUS_SPEEDING')
     frame1 = frame1.join(frame2)
     ans = ans.join(frame1)
     ans['DelTime'] = ans['DelTime'].dt.total_seconds()
-    ans['Velocity'] = ans.apply(basic.haversine_velocity, axis=1)  # Calculating average velocity.
+    ans['Velocity'] = ans.apply(haversine_velocity, axis=1)  # Calculating average velocity.
     ans = ans.loc[ans['Velocity'] > velocity]  # Choosing only buses which passed 50 km/h
     if to_file:
         path = os.path.join(os.getcwd(), file_name + ".csv")
@@ -45,9 +45,9 @@ def count_passed(tag='', storage='DATA', length=60, to_file=False, file_name='DA
                 writer.writerow(['Lon', 'Lat', 'Lon2', 'Lat2'])
                 file.close()
         group = 0
-        frame1 = basic.create_frame(tag + '1', storage, drop_lines=True, drop_brigade=True)
+        frame1 = create_frame(tag + '1', storage, drop_lines=True, drop_brigade=True)
         for i in range(2, length + 1):
-            frame2 = basic.create_frame(tag + str(i), storage, drop_lines=True, drop_brigade=True)
+            frame2 = create_frame(tag + str(i), storage, drop_lines=True, drop_brigade=True)
             too_fast = check_velocity(frame1.copy(), frame2.copy(), to_file, file_name)
             frame1 = frame2
             group = group + len(too_fast)
@@ -56,4 +56,3 @@ def count_passed(tag='', storage='DATA', length=60, to_file=False, file_name='DA
         return len(busses)
     else:  # No period of time to compare.
         return 0
-

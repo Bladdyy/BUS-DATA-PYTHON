@@ -1,10 +1,10 @@
+from BUS_LIB.Analytics.basic import create_frame, haversine_distance, haversine_velocity
 from datetime import datetime, date
 from operator import itemgetter
 import plotly.express as px
 import json
 import os
 import pandas as pd
-from . import basic
 
 
 # Creates a graph of buses being late from late_dict and displays it.
@@ -41,7 +41,7 @@ def add_late(late_dict, bus, late):
 # Length is the amount of the timeframes to compare.
 def create_bus_schedule(bus_dict, tag='', storage='DATA', length=60):
     for i in range(1, length + 1):
-        main_frame = basic.create_frame(tag=tag + str(i), storage=storage, drop_vehicle=True)
+        main_frame = create_frame(tag=tag + str(i), storage=storage, drop_vehicle=True)
         for index, row in main_frame.iterrows():  # Inserting one timeframe to dictionary.
             line = bus_dict.get(row['Lines'])
             if line is None:
@@ -101,16 +101,16 @@ def bus_late(table="/DATA/BUS_STOP_TIMETABLE", tag='', storage='DATA', length=60
                             bus2 = brigade[bus_index]  # Last timeframe data.
                             stop = sorted_arrivals[stop_index]  # Stop data.
                             # Velocity of bus between those two timeframes.
-                            velocity = (basic.haversine_velocity({'Lat': float(bus1[2]), 'Lat2': float(bus2[2]),
-                                                                  'DelLat': abs(float(bus1[2]) - float(bus2[2])),
-                                                                  'DelLon': abs(float(bus1[1]) - float(bus2[1])),
-                                                                  'DelTime': (bus2[0] - bus1[0]).total_seconds()})
+                            velocity = (haversine_velocity({'Lat': float(bus1[2]), 'Lat2': float(bus2[2]),
+                                                            'DelLat': abs(float(bus1[2]) - float(bus2[2])),
+                                                            'DelLon': abs(float(bus1[1]) - float(bus2[1])),
+                                                            'DelTime': (bus2[0] - bus1[0]).total_seconds()})
                                         / 3600)
                             # Distance from 'bus1' timeframe to 'stop'.
-                            distance = basic.haversine_distance({'Lat': float(bus1[2]), 'Lat2': float(stop[1]),
-                                                                 'DelLat': abs(float(bus1[2]) - float(stop[1])),
-                                                                 'DelLon': abs(float(bus1[1]) - float(stop[2]))}
-                                                                )
+                            distance = haversine_distance({'Lat': float(bus1[2]), 'Lat2': float(stop[1]),
+                                                           'DelLat': abs(float(bus1[2]) - float(stop[1])),
+                                                           'DelLon': abs(float(bus1[1]) - float(stop[2]))}
+                                                          )
                             # Time in which bus should arrive from 'bus1' to 'stop'.
                             arrival_time = (datetime.combine(date.today(),
                                             datetime.strptime(stop[0], '%H:%M:%S').time())
@@ -131,4 +131,3 @@ def bus_late(table="/DATA/BUS_STOP_TIMETABLE", tag='', storage='DATA', length=60
         print("Not enough timeframes to analyze.")
     else:
         print("Given path does not exist.", path)
-

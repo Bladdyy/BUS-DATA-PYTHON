@@ -2,8 +2,8 @@ from BUS_LIB.Analytics.stop_analytics import bus_late
 import argparse
 
 parser = argparse.ArgumentParser(description='Analyzing stop arrival data and optionally displaying the result.')
-parser.add_argument('--bus_schedule', type=str, default="DATA/BUS_STOP_TIMETABLE",
-                    help='Path to a global bus schedule. Default value "DATA/BUS_STOP_TIMETABLE".')
+parser.add_argument('--bus_schedule', type=str, default="../DATA/BUS_STOP_TIMETABLE",
+                    help='Path to a global bus schedule. Default value "../DATA/BUS_STOP_TIMETABLE".')
 parser.add_argument('timeframe_name', type=str,
                     help='Common name of all files to analyze. '
                          'All names of files should be the same except the last symbol. '
@@ -23,4 +23,4 @@ args = parser.parse_args()
 
 result = bus_late(table=args.bus_schedule, tag=args.timeframe_name, storage=args.directory_name,
                   length=args.number_of_timeframes, visualize=args.visualization)
-# print("Buses were on time on", result[0], "stops out of", result[1], "stops.")
+print("Buses were on time on", result[0], "stops out of", result[1], "stops.")

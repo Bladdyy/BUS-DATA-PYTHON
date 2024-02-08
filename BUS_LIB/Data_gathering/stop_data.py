@@ -40,7 +40,6 @@ def get_bus_data(file_name="DATA/BUS_STOP_TIMETABLE"):
                             + '43f9-ae6e-60518c9f3238&busstopId=' + stop['packID'] + '&busstopNr=' + stop['stopID']
                             + '&line=' + line_id + '&apikey=b7bc7308-6c4e-454d-8a20-31e478fd9ee7')
                 stop_data = requests.get(stop_url).json()['result']
-
                 for time in stop_data:  # Saving brigade number with time and location
                     brig_id = time['values'][2]['value']  # Brigade ID.
                     time_id = time['values'][5]['value']  # Time of arrival.
@@ -55,7 +54,5 @@ def get_bus_data(file_name="DATA/BUS_STOP_TIMETABLE"):
                             brigade.append((time_id, stop['lon'], stop['lat']))
         index = index + 1  # One more bus stop done.
         print("Progress: " + str(index) + "/" + str(index_len))
-
-    path = os.path.join(os.getcwd(), file_name + ".json")
-    with open(path, 'w') as file:
+    with open(str(os.getcwd()) + file_name + ".json", 'w') as file:
         json.dump(bus_dict, file)

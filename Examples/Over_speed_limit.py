@@ -15,9 +15,9 @@ parser.add_argument('--number_of_timeframes', type=int, default=60,
                     help='Number of "timeframe_name" files to analyze. Default value: 60.')
 parser.add_argument('--to_file', type=bool, default=False,
                     help='Allows to save result of analyzing to file. Default value: False.')
-parser.add_argument('--file_directory', type=str, default='DATA/BUS_SPEEDING',
+parser.add_argument('--file_directory', type=str, default='../DATA/BUS_SPEEDING',
                     help='Path to a file where the result is going to be saved, if "to_file" is True.'
-                         'Default value: "DATA/BUS_SPEEDING"')
+                         'Default value: "../DATA/BUS_SPEEDING"')
 parser.add_argument('--display_map', type=bool, default=False,
                     help='If the result was saved to "file_directory" file, displays a map based on the result.')
 
