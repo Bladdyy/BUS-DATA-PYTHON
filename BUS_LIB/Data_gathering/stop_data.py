@@ -1,4 +1,6 @@
 import json
+import os
+
 import requests
 
 
@@ -13,7 +15,7 @@ def create_bus(brig_id, time, lon, lat):
 
 
 # Creates a global timetable for all buses. Saves it in a 'json' file.
-def get_bus_data():
+def get_bus_data(file_name="DATA/BUS_STOP_TIMETABLE"):
     bus_dict = {}  # Global timetable.
     stop_url = ("https://api.um.warszawa.pl/api/action/dbstore_get?"
                 + "id=ab75c33d-3a26-4342-b36a-6e5fef0a3ac3&apikey=b7bc7308-6c4e-454d-8a20-31e478fd9ee7")
@@ -31,7 +33,7 @@ def get_bus_data():
                    + '66c479ad5942&busstopId=' + stop['packID'] + '&busstopNr=' + stop['stopID']
                    + '&apikey=b7bc7308-6c4e-454d-8a20-31e478fd9ee7')
         bus_data = requests.get(bus_url).json()['result']
-        for line_data in bus_data:  # Downloading the time at which bus should arrive at the bus stop
+        for line_data in bus_data:  # Downloading the times at which bus should arrive at the bus stop.
             line_id = line_data['values'][0]['value']  # Line ID.
             if len(line_id) > 2:  # Skipping trams.
                 stop_url = ('https://api.um.warszawa.pl/api/action/dbtimetable_get?id=e923fa0e-d96c-'
@@ -53,5 +55,7 @@ def get_bus_data():
                             brigade.append((time_id, stop['lon'], stop['lat']))
         index = index + 1  # One more bus stop done.
         print("Progress: " + str(index) + "/" + str(index_len))
-    with open('BUS_STOP_TIMETABLE.json', 'w') as file:
+
+    path = os.path.join(os.getcwd(), file_name + ".json")
+    with open(path, 'w') as file:
         json.dump(bus_dict, file)

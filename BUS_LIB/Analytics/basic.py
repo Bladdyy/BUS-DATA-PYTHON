@@ -29,8 +29,7 @@ def create_frame(tag='1', storage="DATA", drop_lines=False, drop_brigade=False, 
 
         return new_frame
     else:
-        print(path)
-        print("Given path does not exist.")
+        print("Given path does not exist.", path)
         return None
 
 

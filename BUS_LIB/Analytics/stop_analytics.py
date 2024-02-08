@@ -61,7 +61,7 @@ def create_bus_schedule(bus_dict, tag='', storage='DATA', length=60):
 # Storage is the name of folder which is the directory of said file.
 # Length is the amount of the timeframes to compare.
 # If visualize is set to True, displays a graph showing percentage of being late.
-def bus_late(table="DATA/BUS_STOP_TIMETABLE", tag='', storage='DATA', length=60, visualize=False):
+def bus_late(table="/DATA/BUS_STOP_TIMETABLE", tag='', storage='DATA', length=60, visualize=False):
     path = os.path.join(os.getcwd(), table + ".json")
     bus_dict = {}
     if os.path.exists(path) and length >= 2:  # If there are more than two timeframes to compare.
@@ -130,6 +130,5 @@ def bus_late(table="DATA/BUS_STOP_TIMETABLE", tag='', storage='DATA', length=60,
     elif length < 2:
         print("Not enough timeframes to analyze.")
     else:
-        print(path)
-        print("Given path does not exist.")
+        print("Given path does not exist.", path)
 
