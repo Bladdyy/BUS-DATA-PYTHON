@@ -1,3 +1,6 @@
+# My biggest Python project
+Pretty open project about tracking and analyzing speed and location of buses in Warsaw.
+
 # Assignment
 
 Korzystając z danych dostępnych na stronie https://api.um.warszawa.pl/# zbierz informacje o pozycjach autobusów w zadanym przedziale czasu. Proponujemy, wybranie dwóch takich przedziałów o długości minimum jedna godzina (ciekawa może być np. jedna z godzin szczytu natężenia ruchu, porównana z wczesnoporanną lub późnowieczorną). 
